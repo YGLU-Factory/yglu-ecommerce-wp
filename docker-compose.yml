@@ -9,6 +9,7 @@ services:
       - ./wordpress:/var/www/html
       - ./src:/var/www/html/wp-content/plugins/${PLUGIN_NAME}
       - ./bin:/scripts
+      - .docker/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     environment:
       - WORDPRESS_DB_NAME=wordpress
       - WORDPRESS_TABLE_PREFIX=wp_
@@ -22,12 +23,14 @@ services:
     restart: always
     ports:
       - 8080:80
+    extra_hosts:
+      - host.docker.internal:host-gateway
 
   db:
     image: mariadb:latest
     container_name: db
     volumes:
-      - db_data:/var/lib/mysql
+      - .docker/db_data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_USER=root
@@ -46,6 +49,3 @@ services:
     environment:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: password
-
-volumes:
-  db_data:

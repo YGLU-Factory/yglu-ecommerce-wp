@@ -14,7 +14,6 @@ define("MY_PLUGIN_URL", plugin_dir_url(__FILE__));
 define("MY_PLUGIN_SLUG", "my-plugin");
 
 require_once MY_PLUGIN_PATH . "admin.php";
-require_once MY_PLUGIN_PATH . "frontend.php";
 
 register_activation_hook(__FILE__, "setup_db");
 
@@ -38,16 +37,6 @@ function enqueue_my_scripts() {
     wp_enqueue_script("my-script", get_url("script.js"), array("jquery"), filemtime(get_path("script.js")));
 }
 
-function enqueue_my_blocks() {
-    wp_enqueue_script(
-        "my-block",
-        get_url("block.js"),
-        array("wp-blocks", "wp-element", "wp-editor"),
-        filemtime(get_path("block.js"))
-    );
-}
-
 add_action("wp_enqueue_scripts", "enqueue_my_styles");
 add_action("wp_enqueue_scripts", "enqueue_my_scripts");
 
-add_action("enqueue_block_editor_assets", "enqueue_my_blocks");

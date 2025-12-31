@@ -1,93 +1,64 @@
-# WordPress plugin development boilerplate
+# Plugin YGLU e-commerce para WordPress
 
-![Logo](doc/wp-boilerplate.png)
+Este plugin permite conectar un sitio web con WordPress + WooCommerce a YGLU para sincronizar pedidos, generar facturas, albaranes y más.
 
-This project is a WordPress plugin development boilerplate to jumpstart WordPress plugin projects. It utilizes Docker for a local environment and includes an automated setup of WordPress with a configurable admin user and password.
-
-![Plugin example](doc/plugin.png)
-
-With the boilerplate you get a simple template to get started with a plugin, which includes a dedicated **admin page**, an example **shortcode to be rendered on any page** as well as a **custom Gutenberg block**.
-
-Furthermore it includes a build script and Github Workflow to generate an installable plugin release.
-
-**Environment:**
-* Docker
-* Linux, macOS
-
-Simply create a fork of this repo and get started by implementing your plugin in an efficient environment.
-
-## Setup
-
-* Fork the project
-* Adjust the plugin name in `.env`
-* Enable access to the `GITHUB_TOKEN` for the Github workflow to create releases: `Repository settings` -> `Actions` -> `General` -> `Workflow permission` -> select `Read and write permissions`.
-
-![Workflow settings](doc/workflow-settings.png)
-
-Commands to interact with Docker as well as building the plugin are encapsulated in the `Makefile`.
-
-## Start local WordPress via Docker
+## Iniciar WordPress localmente con Docker
 ```sh
 make wp-start
 ```
 
-This starts a local WordPress and database container. It uses the latest WordPress version and installs the WordPress CLI to automatically setup an admin user with the configured user and password in `.env`. After the setup is complete, you will get details on how to access WordPress in the log output.
 
-![Start WordPress](doc/wp-start.png)
+Este comando inicia un contenedor local de WordPress junto con la base de datos.
+Utiliza la última versión de WordPress e instala la CLI de WordPress para configurar automáticamente un usuario administrador con las credenciales definidas en el archivo `.env`.
+Una vez completada la instalación, verás en los logs la información necesaria para acceder a WordPress.
 
-After starting the Docker setup, you can reach WordPress locally via:
+> [!NOTE]
+> Debes ejecutar el comando en una shell bash, como por ejemplo WSL o Git bash. Si no tienes la utilidad `make` instalada, puedes instalarla con `sudo apt update && sudo apt install make`.
+>
+> Si falla con un error similar a `Error: This does not seem to be a WordPress installation`, vuelve a ejecutar el comando.
 
-* Frontend: http://localhost:8080
-* Backend: http://localhost:8080/wp-admin
+![Iniciar WordPress](doc/wp-start.png)
 
-Your plugin is already installed automatically and can be activated!
+Después de iniciar el entorno Docker, puedes acceder a WordPress localmente en:
 
-![Plugin example](doc/plugin-example.png)
+* **Frontend:** http://localhost:8080
+* **Backend:** http://localhost:8080/wp-admin
+* **PHPMyAdmin:** http://localhost:8180
 
-## Stop local WordPress via Docker
+Tu plugin ya estará instalado automáticamente y listo para ser activado.
+
+![Ejemplo de plugin](doc/plugin-example.png)
+
+## Detener WordPress localmente con Docker
 ```sh
 make wp-stop
 ```
 
-## Build plugin
+## Compilar el plugin
 ```sh
 make
 ```
 
-This command will trigger the `bin/build.sh` script with the configured plugin name in `.env` to create an installable WordPress plugin `.zip` file.
+Este comando ejecuta el script `bin/build.sh` usando el nombre del plugin configurado en `.env`, y genera un archivo `.zip` instalable del plugin de WordPress.
 
-![Build plugin](doc/build.png)
+![Compilar plugin](doc/build.png)
 
-Also the Github workflow in `.github/workflows/build.yml` will automatically build the plugin and create a release with the `.zip` file on any push to `main`.
+Además, el flujo de trabajo de GitHub definido en `.github/workflows/build.yml` compilará automáticamente el plugin y creará una nueva *release* con el archivo `.zip` cada vez que se haga un *push* a la rama `main`.
 
-![Release plugin](doc/release.png)
+![Publicar plugin](doc/release.png)
 
-## Plugin development
+## Desarrollo del plugin
 
-The source of your plugin is in `src/`. There are already examples added, to get started quickly:
+El código fuente del plugin se encuentra en el directorio `src/`.
 
-* `src/index.php`: General setup and global variables / functions
-* `src/admin.php`: Admin page
-* `src/frontend.php`: Code to render the custom shortcode
-* `src/block.js`: Custom Gutenberg block example
-* `src/script.js`: Custom JS code loaded with your plugin
-* `src/style.css`: Custom CSS code loaded with your plugin
+* `src/index.php`: Configuración general y variables / funciones globales
+* `src/admin.php`: Página de administración
+* `src/script.js`: Código JavaScript personalizado cargado con el plugin
+* `src/style.css`: Código CSS personalizado cargado con el plugin
 
-With the given example, you will get a custom admin page, a shortcode `[my-plugin]` that will be rendered with a "Hello World!" example as well as a custom Gutenberg block that simply renders a text.
+> [!NOTE]
+> `xdebug` está disponible, solo necesitas instalar la extensión [PHP Debug](https://marketplace.visualstudio.com/items?itemName=xdebug.php-debug) para VSCode e iniciar una sesión de debugging con F5.
 
-**Shortcode:**
+**Página de administración:**
 
-![Shortcode example 1](doc/frontend1.png)
-![Shortcode example 2](doc/frontend2.png)
-
-**Gutenberg block:**
-
-![Gutenberg example](doc/block.png)
-
-**Admin page:**
-
-![Admin example](doc/plugin.png)
-
-From here, you can get started with your plugin within an efficient local environment including a build workflow.
-
-> If you use this boilerplate, feel free to star ⭐️ this repo and add your project to this README. Knowledge shared is knowledge squared!
+![Ejemplo de panel de administración](doc/plugin.png)
