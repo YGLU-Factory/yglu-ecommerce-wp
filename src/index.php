@@ -1,32 +1,31 @@
 <?php
 /**
-* Plugin Name: My Plugin
-* Plugin URI: https://vojay.de/
-* Description: Boilerplate to develop your own WordPress plugin
+* Plugin Name: YGLU e-commerce
+* Plugin URI: https://tuyglu.com/
+* Description: Conecta su sitio a YGLU para sincronizar pedidos y poder generar facturas verificadas
 * Version: 0.1
-* Author: Volker Janz
-* Author URI: https://vojay.de/
+* Author: YGLU Factory
+* Author URI: https://tuyglu.com/
+* Requires Plugins: woocommerce
 **/
 
-// global variables for your plugin
-define("MY_PLUGIN_PATH", plugin_dir_path(__FILE__));
-define("MY_PLUGIN_URL", plugin_dir_url(__FILE__));
-define("MY_PLUGIN_SLUG", "my-plugin");
+define("YGE_PLUGIN_PATH", plugin_dir_path(__FILE__));
+define("YGE_PLUGIN_URL", plugin_dir_url(__FILE__));
+define("YGE_PLUGIN_SLUG", "yglu-ecommerce");
 
-require_once MY_PLUGIN_PATH . "admin.php";
+require_once YGE_PLUGIN_PATH . "admin.php";
 
-register_activation_hook(__FILE__, "setup_db");
+register_activation_hook(__FILE__, "activatePlugin");
+function activatePlugin() {
 
-function setup_db() {
-    // database setup code
 }
 
 function get_url($file) {
-    return MY_PLUGIN_URL . $file;
+    return YGE_PLUGIN_URL . $file;
 }
 
 function get_path($file) {
-    return MY_PLUGIN_PATH . $file;
+    return YGE_PLUGIN_PATH . $file;
 }
 
 function enqueue_my_styles() {

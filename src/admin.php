@@ -8,7 +8,7 @@ function add_menu() {
         "My Plugin",               // page title
         "My Plugin",               // menu title
         "manage_my_plugin",        // custom capability
-        MY_PLUGIN_SLUG,            // menu slug
+        YGE_PLUGIN_SLUG,            // menu slug
         "render_admin_page",       // callback
         "dashicons-admin-generic", // icon url
         6                          // position

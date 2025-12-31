@@ -6,7 +6,8 @@ services:
       dockerfile: Dockerfile
     container_name: wordpress
     volumes:
-      - ./wordpress:/var/www/html
+      # Comentado ya que si no da errores de permisos
+      #- ./wordpress:/var/www/html
       - ./src:/var/www/html/wp-content/plugins/${PLUGIN_NAME}
       - ./bin:/scripts
       - .docker/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
@@ -20,7 +21,7 @@ services:
     depends_on:
       - db
       - phpmyadmin
-    restart: always
+    restart: unless-stopped
     ports:
       - 8080:80
     extra_hosts:
@@ -36,14 +37,14 @@ services:
       - MYSQL_USER=root
       - MYSQL_PASSWORD=password
       - MYSQL_DATABASE=wordpress
-    restart: always
+    restart: unless-stopped
 
   phpmyadmin:
     depends_on:
       - db
     image: phpmyadmin/phpmyadmin:latest
     container_name: phpmyadmin
-    restart: always
+    restart: unless-stopped
     ports:
       - 8180:80
     environment:
