@@ -11,6 +11,7 @@ services:
       - ./src:/var/www/html/wp-content/plugins/${PLUGIN_NAME}
       - ./bin:/scripts
       - .docker/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - .docker/php.ini:/usr/local/etc/php/conf.d/php.ini
     environment:
       - WORDPRESS_DB_NAME=wordpress
       - WORDPRESS_TABLE_PREFIX=wp_
