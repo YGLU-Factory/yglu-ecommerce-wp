@@ -14,8 +14,10 @@
 define("YGE_PLUGIN_PATH", plugin_dir_path(__FILE__));
 define("YGE_PLUGIN_URL", plugin_dir_url(__FILE__));
 define("YGE_PLUGIN_SLUG", "yglu-ecommerce");
+define("YGE_API_ENDPOINT", "https://yglu.dev.local/api/");
 
 require_once YGE_PLUGIN_PATH . "admin.php";
+require_once YGE_PLUGIN_PATH . "sync.php";
 
 register_activation_hook(__FILE__, "yge_activate_plugin");
 function yge_activate_plugin() {
