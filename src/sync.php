@@ -12,7 +12,7 @@ function yge_sync_order_to_api($order_id, $old_status, $new_status)
 }
 
 /**
- * Envía un pedido a YGLU
+ * Envía un pedido existente a YGLU
  *
  * @param int $order_id
  * @return boolean
@@ -33,7 +33,7 @@ function yge_send_order_to_api($order_id)
     }
 
     $order_data = wp_json_encode(yge_prepare_order_data($order));
-    $api_url = YGE_API_ENDPOINT.'orders/create';
+    $api_url = YGE_API_ENDPOINT . 'orders/create';
 
     $args = array(
         'headers' => array(
@@ -43,7 +43,7 @@ function yge_send_order_to_api($order_id)
         'body' => $order_data,
         'timeout' => 30,
     );
-return;
+    return;
 
     $response = wp_remote_post($api_url, $args);
 

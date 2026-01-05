@@ -46,7 +46,7 @@ function yge_get_customer_fiscal_data($order)
     $fiscal_number = '';
 
     if ($nif_field_setting === 'yes') { // Campo agregado por YGLU e-commerce
-        $fiscal_number = $order->get_meta('_billing_nif') ?: '';
+        $fiscal_number = $order->get_meta('_yge_billing_nif') ?: '';
     } elseif ($nif_field_setting === 'custom') { // Campos custom de otro plugin
         $custom_field_name = get_option('show_nif_field_existent_fieldname', '');
         if (!empty($custom_field_name)) {
