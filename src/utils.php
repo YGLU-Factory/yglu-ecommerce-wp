@@ -110,10 +110,11 @@ function yge_prepare_order_lines($order)
             'name' => $item->get_name(),
             'position' => $position,
             'quantity' => $item->get_quantity(),
-            'price_without_tax' => $item->get_subtotal() / $item->get_quantity(), // Precio por unidad sin tasas
-            'price_with_tax' => ($item->get_total() / $item->get_quantity()) + ($item->get_total_tax() / $item->get_quantity()), // Precio por unidad con tasas
-            'tax_percentage' => yge_get_item_tax_percentage($item),
-            'tax_amount' => $item->get_total_tax() // Total de tasas para la línea
+            'product_price_without_tax' => $item->get_subtotal() / $item->get_quantity(), // Precio por unidad sin tasas (Precio)
+            'price_without_tax' => $item->get_subtotal(), // Precio de la línea sin tasas (ImporteBruto)
+            'price_with_tax' => $item->get_total() + $item->get_total_tax(), // Precio de la línea con tasas (ImporteLiquido)
+            'tax_percentage' => yge_get_item_tax_percentage($item), // Porcentaje de tasas de la línea (BaseImponible)
+            'tax_amount' => $item->get_total_tax(), // Total de tasas para la línea (CuotaIva)
         );
 
         $lines[] = $line_data;
