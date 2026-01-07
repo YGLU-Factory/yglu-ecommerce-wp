@@ -33,7 +33,7 @@ function yge_send_order_to_api($order_id)
     }
 
     $order_data = wp_json_encode(yge_prepare_order_data($order));
-    $api_url = YGE_API_ENDPOINT . 'orders/create';
+    $api_url = YGE_API_ENDPOINT . 'sales/orders/create';
 
     $args = array(
         'headers' => array(

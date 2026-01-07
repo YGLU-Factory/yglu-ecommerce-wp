@@ -27,6 +27,9 @@ services:
       - 8080:80
     extra_hosts:
       - host.docker.internal:host-gateway
+    networks:
+      - default
+      - yglu_yglu-net
 
   db:
     image: mariadb:latest
@@ -51,3 +54,9 @@ services:
     environment:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: password
+
+networks:
+  default:
+    driver: bridge
+  yglu_yglu-net:
+    external: true
