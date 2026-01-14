@@ -11,8 +11,10 @@ function yge_prepare_order_data($order)
         'id' => $order->get_id(),
         'customer_fiscal_data' => yge_get_customer_fiscal_data($order),
         'date' => $order->get_date_created()->format('Y-m-d H:i:s'),
-        'discount_total' => $order->get_total_discount(),
+        'discount_amount' => $order->get_total_discount(),
         'discount_percentage' => yge_calculate_discount_percentage($order),
+        'shipping_amount' => floatval($order->get_shipping_total()),
+        'shipping_tax' => floatval($order->get_shipping_tax()),
         'total_amount' => $order->get_total(),
         'total_without_tax' => $order->get_total() - $order->get_total_tax(),
         'order_lines' => yge_prepare_order_lines($order),
@@ -62,7 +64,7 @@ function yge_get_customer_fiscal_data($order)
     return array(
         'name' => trim($billing_first_name . ' ' . $billing_last_name),
         'company' => $billing_company,
-        'fiscal_number' => $fiscal_number,
+        'nif' => $fiscal_number,
         'address' => array(
             'street' => $billing_address_1,
             'street_extra' => $billing_address_2,
