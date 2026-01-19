@@ -3,12 +3,16 @@
 /**
  * Devuelve los datos de "cabecera" del pedido
  *
+ * @param WC_Order $order
  * @return array
  */
 function yge_prepare_order_data($order)
 {
+    /**@var \WC_Order $order */
     $order_data = array(
         'id' => $order->get_id(),
+        'status' => $order->get_status(),
+        'create_invoice' => (get_option('create_invoice', 'no') == 'yes' ? true : false),
         'customer_fiscal_data' => yge_get_customer_fiscal_data($order),
         'date' => $order->get_date_created()->format('Y-m-d H:i:s'),
         'discount_amount' => $order->get_total_discount(),
@@ -26,10 +30,12 @@ function yge_prepare_order_data($order)
 /**
  * Devuelve los datos fiscales del cliente
  *
+ * @param WC_Order $order
  * @return array
  */
 function yge_get_customer_fiscal_data($order)
 {
+    /**@var \WC_Order $order */
     // Sacamos los datos del cliente del pedido
     $billing_company = $order->get_billing_company();
     $billing_first_name = $order->get_billing_first_name();
@@ -81,7 +87,8 @@ function yge_get_customer_fiscal_data($order)
 /**
  * Devuelve los datos de "cabecera" del pedido
  *
- * @return array
+ * @param WC_Order $order
+ * @return int
  */
 function yge_calculate_discount_percentage($order)
 {
@@ -98,6 +105,7 @@ function yge_calculate_discount_percentage($order)
 /**
  * Devuelve las líneas del pedido
  *
+ * @param WC_Order $order
  * @return array
  */
 function yge_prepare_order_lines($order)
@@ -129,7 +137,8 @@ function yge_prepare_order_lines($order)
 /**
  * Devuelve el porcentaje de IVA de un producto
  *
- * @return float
+ * @param \WC_Order_Item $item
+ * @return int
  */
 function yge_get_item_tax_percentage($item)
 {

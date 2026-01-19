@@ -69,7 +69,7 @@ function yge_settings_fields() // Agregar campos a la página de ajustes
             'type' => 'text',
             'placeholder' => 'Clave API de tu cuenta de YGLU',
             'value' => get_option('api_key'),
-            'helper' => 'Puedes encontrarla en Configuración de empresa'
+            'helper' => 'Puedes encontrarla en Configuración > API'
         ]
     );
 
@@ -93,6 +93,28 @@ function yge_settings_fields() // Agregar campos a la página de ajustes
                 ['value' => 'custom', 'title' => 'Usar otro', 'show_input' => true, 'input_label' => 'Nombre del campo:']
             ],
             'helper' => 'Selecciona si deseas que YGLU e-commerce agregue un campo NIF al checkout o usar un campo ya agregado por otro plugin. En este último caso, debes indicar el nombre interno del campo.',
+        ]
+    );
+
+    register_setting('yge_settings', 'create_invoice');
+    add_settings_field( // Selector de crear o no factura al sincronizar
+        'create_invoice',
+        'Generar factura',
+        'yge_field_radio',
+        YGE_PLUGIN_SLUG,
+        'yge_settings_integration',
+        [
+            'id' => 'create_invoice',
+            'name' => 'create_invoice',
+            'label' => 'Generar factura',
+            'value' => get_option('create_invoice', 'no'),
+            'input_name' => 'create_invoice_existent_fieldname',
+            'input_value' => get_option('create_invoice_existent_fieldname', ''),
+            'options' => [
+                ['value' => 'yes', 'title' => 'Sí'],
+                ['value' => 'no', 'title' => 'No']
+            ],
+            'helper' => 'Selecciona si deseas que YGLU cree una factura de los pedidos sincronizados. La factura solo se generará si el pedido está en estado "Procesando" o "Completado"',
         ]
     );
 }

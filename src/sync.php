@@ -24,6 +24,7 @@ function yge_send_order_to_api($order_id)
     if (!$order) {
         return false;
     }
+    if ($order->get_meta_data('_yge_order_synced')) return false; // Si ya está sincronizado, no volvemos a sincronizarlo
 
     $api_key = get_option('api_key');
 
@@ -43,7 +44,6 @@ function yge_send_order_to_api($order_id)
         'body' => $order_data,
         'timeout' => 30,
     );
-    return;
 
     $response = wp_remote_post($api_url, $args);
 
@@ -57,6 +57,8 @@ function yge_send_order_to_api($order_id)
         error_log('YGLU API Response Error: ' . wp_remote_retrieve_body($response));
         return false;
     }
+
+    $order->update_meta_data('_yge_order_synced', 'true');
 
     error_log('YGLU: Order ' . $order_id . ' synced successfully');
     return true;
