@@ -55,39 +55,39 @@ function yge_settings_fields() // Agregar campos a la página de ajustes
 {
     add_settings_section('yge_settings_integration', 'Integración', '', YGE_PLUGIN_SLUG); // Agrega una sección de ajustes
 
-    register_setting('yge_settings', 'api_key'); // Registra un ajuste, para crear su espacio en DB
+    register_setting('yge_settings', 'yge_api_key'); // Registra un ajuste, para crear su espacio en DB
     add_settings_field( // Campo de la clave API
-        'api_key',
+        'yge_api_key',
         'Clave API',
         'yge_field_input',
         YGE_PLUGIN_SLUG,
         'yge_settings_integration',
         [
-            'id' => 'api_key',
+            'id' => 'yge_api_key',
             'classes' => ['regular-text'],
-            'name' => 'api_key',
+            'name' => 'yge_api_key',
             'type' => 'text',
             'placeholder' => 'Clave API de tu cuenta de YGLU',
-            'value' => get_option('api_key'),
+            'value' => get_option('yge_api_key'),
             'helper' => 'Puedes encontrarla en Configuración > API'
         ]
     );
 
-    register_setting('yge_settings', 'show_nif_field');
-    register_setting('yge_settings', 'show_nif_field_existent_fieldname');
+    register_setting('yge_settings', 'yge_show_nif_field');
+    register_setting('yge_settings', 'yge_show_nif_field_existent_fieldname');
     add_settings_field( // Selector de agregar campo NIF o no al checkout
-        'show_nif_field',
+        'yge_show_nif_field',
         'Agregar campo NIF',
         'yge_field_radio_with_input',
         YGE_PLUGIN_SLUG,
         'yge_settings_integration',
         [
-            'id' => 'show_nif_field',
-            'name' => 'show_nif_field',
+            'id' => 'yge_show_nif_field',
+            'name' => 'yge_show_nif_field',
             'label' => 'Agregar campo NIF',
-            'value' => get_option('show_nif_field', 'no'),
-            'input_name' => 'show_nif_field_existent_fieldname',
-            'input_value' => get_option('show_nif_field_existent_fieldname', ''),
+            'value' => get_option('yge_show_nif_field', 'no'),
+            'input_name' => 'yge_show_nif_field_existent_fieldname',
+            'input_value' => get_option('yge_show_nif_field_existent_fieldname', ''),
             'options' => [
                 ['value' => 'yes', 'title' => 'Sí'],
                 ['value' => 'custom', 'title' => 'Usar otro', 'show_input' => true, 'input_label' => 'Nombre del campo:']
@@ -96,20 +96,20 @@ function yge_settings_fields() // Agregar campos a la página de ajustes
         ]
     );
 
-    register_setting('yge_settings', 'create_invoice');
+    register_setting('yge_settings', 'yge_create_invoice');
     add_settings_field( // Selector de crear o no factura al sincronizar
-        'create_invoice',
+        'yge_create_invoice',
         'Generar factura',
         'yge_field_radio',
         YGE_PLUGIN_SLUG,
         'yge_settings_integration',
         [
-            'id' => 'create_invoice',
-            'name' => 'create_invoice',
+            'id' => 'yge_create_invoice',
+            'name' => 'yge_create_invoice',
             'label' => 'Generar factura',
-            'value' => get_option('create_invoice', 'no'),
-            'input_name' => 'create_invoice_existent_fieldname',
-            'input_value' => get_option('create_invoice_existent_fieldname', ''),
+            'value' => get_option('yge_create_invoice', 'no'),
+            'input_name' => 'yge_create_invoice_existent_fieldname',
+            'input_value' => get_option('yge_create_invoice_existent_fieldname', ''),
             'options' => [
                 ['value' => 'yes', 'title' => 'Sí'],
                 ['value' => 'no', 'title' => 'No']

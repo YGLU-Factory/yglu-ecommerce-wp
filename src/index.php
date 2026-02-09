@@ -4,7 +4,7 @@
  * Plugin Name: YGLU e-commerce
  * Plugin URI: https://tuyglu.com/
  * Description: Conecta su sitio a YGLU para sincronizar pedidos y poder generar facturas verificadas
- * Version: 0.1
+ * Version: 0.9
  * Requires at least: 4.7
  * Tested up to: 6.9
  * Author: YGLU Factory
@@ -15,7 +15,7 @@
 define("YGE_PLUGIN_PATH", plugin_dir_path(__FILE__));
 define("YGE_PLUGIN_URL", plugin_dir_url(__FILE__));
 define("YGE_PLUGIN_SLUG", "yglu-ecommerce");
-define("YGE_API_ENDPOINT", "https://yglu-php/api/rest/");
+define("YGE_API_ENDPOINT", "https://staging.tuyglu.com/api/rest/");
 
 require_once YGE_PLUGIN_PATH . "admin.php";
 require_once YGE_PLUGIN_PATH . "sync.php";
@@ -58,8 +58,7 @@ add_action("wp_enqueue_scripts", "yge_enqueue_scripts");
 // Comprobar si hay que añadir el campo de NIF
 function do_add_nif_field()
 {
-    $asda = get_option('show_nif_field', 'no');
-    return (get_option('show_nif_field', 'no') == 'yes' ? true : false);
+    return (get_option('yge_show_nif_field', 'no') == 'yes' ? true : false);
 }
 
 // Añadir campo NIF al checkout

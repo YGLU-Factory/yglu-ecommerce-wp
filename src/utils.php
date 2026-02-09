@@ -12,7 +12,7 @@ function yge_prepare_order_data($order)
     $order_data = array(
         'id' => $order->get_id(),
         'status' => $order->get_status(),
-        'create_invoice' => (get_option('create_invoice', 'no') == 'yes' ? true : false),
+        'create_invoice' => (get_option('yge_create_invoice', 'no') == 'yes' ? true : false),
         'customer_fiscal_data' => yge_get_customer_fiscal_data($order),
         'date' => $order->get_date_created()->format('Y-m-d H:i:s'),
         'discount_amount' => $order->get_total_discount(),
@@ -48,13 +48,13 @@ function yge_get_customer_fiscal_data($order)
     $billing_email = $order->get_billing_email();
 
     // Comprobación del tipo de campo de NIF
-    $nif_field_setting = get_option('show_nif_field', 'no');
+    $nif_field_setting = get_option('yge_show_nif_field', 'no');
     $fiscal_number = '';
 
     if ($nif_field_setting === 'yes') { // Campo agregado por YGLU e-commerce
         $fiscal_number = $order->get_meta('_yge_billing_nif') ?: $order->get_meta('_wc_billing/yge/billing_nif') ?: '';
     } elseif ($nif_field_setting === 'custom') { // Campos custom de otro plugin
-        $custom_field_name = get_option('show_nif_field_existent_fieldname', '');
+        $custom_field_name = get_option('yge_show_nif_field_existent_fieldname', '');
         if (!empty($custom_field_name)) {
             $fiscal_number = $order->get_meta($custom_field_name) ?: '';
         }

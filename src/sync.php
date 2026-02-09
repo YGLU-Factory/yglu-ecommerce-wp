@@ -27,7 +27,7 @@ function yge_send_order_to_api($order_id)
 
     if (!empty($order->get_meta('_yge_order_synced'))) return false; // Si ya está sincronizado, no volvemos a sincronizarlo
 
-    $api_key = get_option('api_key');
+    $api_key = get_option('yge_api_key');
 
     if (empty($api_key)) {
         error_log('YGLU e-commerce: Sin clave API, no se enviarán datos a YGLU.');
