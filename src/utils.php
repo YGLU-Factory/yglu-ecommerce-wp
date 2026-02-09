@@ -17,8 +17,6 @@ function yge_prepare_order_data($order)
         'date' => $order->get_date_created()->format('Y-m-d H:i:s'),
         'discount_amount' => $order->get_total_discount(),
         'discount_percentage' => yge_calculate_discount_percentage($order),
-        'shipping_amount' => floatval($order->get_shipping_total()),
-        'shipping_tax' => floatval($order->get_shipping_tax()),
         'total_amount' => $order->get_total(),
         'total_without_tax' => $order->get_total() - $order->get_total_tax(),
         'order_lines' => yge_prepare_order_lines($order),
@@ -129,6 +127,19 @@ function yge_prepare_order_lines($order)
 
         $lines[] = $line_data;
         $position++;
+    }
+
+    if (!empty($order->get_shipping_total())){
+        $lines[] = [
+            'name' => 'Envío',
+            'position' => $position,
+            'quantity' => 1,
+            'product_price_without_tax' => $order->get_shipping_total(),
+            'price_without_tax' => $order->get_shipping_total(),
+            'price_with_tax' => $order->get_shipping_total() + $order->get_shipping_tax(),
+            'tax_percentage' => ($order->get_shipping_tax() / $order->get_shipping_total()) * 100,
+            'tax_amount' => $order->get_shipping_tax(),
+        ];
     }
 
     return $lines;
