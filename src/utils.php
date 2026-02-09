@@ -120,7 +120,7 @@ function yge_prepare_order_lines($order)
             'name' => $item->get_name(),
             'position' => $position,
             'quantity' => $item->get_quantity(),
-            'product_price_without_tax' => $item->get_subtotal() / $item->get_quantity(), // Precio por unidad sin tasas (Precio)
+            'product_price_without_tax' => $item->get_subtotal() / max($item->get_quantity(), 1), // Precio por unidad sin tasas (Precio)
             'price_without_tax' => $item->get_subtotal(), // Precio de la línea sin tasas (ImporteBruto)
             'price_with_tax' => $item->get_total() + $item->get_total_tax(), // Precio de la línea con tasas (ImporteLiquido)
             'tax_percentage' => yge_get_item_tax_percentage($item), // Porcentaje de tasas de la línea (BaseImponible)
@@ -142,11 +142,12 @@ function yge_prepare_order_lines($order)
  */
 function yge_get_item_tax_percentage($item)
 {
-     $subtotal = $item->get_subtotal();
-
-    if ($subtotal > 0) {
-        return ($item->get_subtotal_tax() / $subtotal) * 100;
+    $taxCategories = [21.00, 10.00, 4.00];
+    $amount = $item->get_total() > 0 ? ($item->get_total_tax() / $item->get_total()) * 100 : 0;
+    foreach ($taxCategories as $iva) {
+        if (abs($amount - $iva) < 0.05) {
+            return $iva;
+        }
     }
-
-    return 0; // Retorna 0 si el importe del subtotal es 0
+    return round($amount, 2);
 }
