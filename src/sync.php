@@ -60,6 +60,7 @@ function yge_send_order_to_api($order_id)
     }
 
     $order->update_meta_data('_yge_order_synced', 'true');
+    $order->save();
 
     error_log('YGLU: Order ' . $order_id . ' synced successfully');
     return true;
