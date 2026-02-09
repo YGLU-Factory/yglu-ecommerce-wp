@@ -24,7 +24,8 @@ function yge_send_order_to_api($order_id)
     if (!$order) {
         return false;
     }
-    if ($order->get_meta_data('_yge_order_synced')) return false; // Si ya está sincronizado, no volvemos a sincronizarlo
+
+    if (!empty($order->get_meta('_yge_order_synced'))) return false; // Si ya está sincronizado, no volvemos a sincronizarlo
 
     $api_key = get_option('api_key');
 
