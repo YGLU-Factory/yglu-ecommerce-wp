@@ -52,7 +52,7 @@ function yge_get_customer_fiscal_data($order)
     $fiscal_number = '';
 
     if ($nif_field_setting === 'yes') { // Campo agregado por YGLU e-commerce
-        $fiscal_number = $order->get_meta('_yge_billing_nif') ?: '';
+        $fiscal_number = $order->get_meta('_yge_billing_nif') ?: $order->get_meta('_wc_billing/yge/billing_nif') ?: '';
     } elseif ($nif_field_setting === 'custom') { // Campos custom de otro plugin
         $custom_field_name = get_option('show_nif_field_existent_fieldname', '');
         if (!empty($custom_field_name)) {
@@ -156,7 +156,7 @@ function yge_get_item_tax_percentage($item)
     $taxCategories = [21.00, 10.00, 4.00];
     $amount = $item->get_total() > 0 ? ($item->get_total_tax() / $item->get_total()) * 100 : 0;
     foreach ($taxCategories as $iva) {
-        if (abs($amount - $iva) < 0.05) {
+        if (abs($amount - $iva) < 0.15) {
             return $iva;
         }
     }
