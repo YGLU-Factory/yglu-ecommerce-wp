@@ -14,6 +14,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Extract version from index.php
+        id: version
+        run: |
+          VERSION=$(grep -oP 'Version: \K[0-9]+(?:\.[0-9]+)+' src/index.php)
+          echo "VERSION=$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Read dotenv
         id: dotenv
         uses: falti/dotenv-action@v1.1
@@ -23,16 +30,20 @@ jobs:
       - name: Run build script
         run: ./bin/build.sh ${{ steps.dotenv.outputs.plugin_name }}
 
+      - name: Rename ZIP file with version
+        run: |
+          mv target/${{ steps.dotenv.outputs.plugin_name }}.zip target/${{ steps.dotenv.outputs.plugin_name }}-v${{ steps.version.outputs.version }}.zip
+
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ github.run_number }}
-          release_name: Release ${{ github.run_number }}
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: v${{ steps.version.outputs.version }}
           body: |
-            Release ${{ github.run_number }}
+            Release v${{ steps.version.outputs.version }}
           draft: false
           prerelease: false
 
@@ -43,6 +54,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: target/${{ steps.dotenv.outputs.plugin_name }}.zip
-          asset_name: ${{ steps.dotenv.outputs.plugin_name }}.zip
+          asset_path: target/${{ steps.dotenv.outputs.plugin_name }}-v${{ steps.version.outputs.version }}.zip
+          asset_name: ${{ steps.dotenv.outputs.plugin_name }}-v${{ steps.version.outputs.version }}.zip
           asset_content_type: application/zip
