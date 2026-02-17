@@ -7,8 +7,8 @@ add_action("admin_menu", "yge_add_menu");
 function yge_add_menu()
 {
     add_menu_page(
-        "YGLU e-commerce", // Título de la página
-        "YGLU e-commerce", // Título del side menu
+        "YGLU Woocommerce", // Título de la página
+        "YGLU Woo", // Título del side menu
         "manage_yglu_ecommerce", // Permiso
         YGE_PLUGIN_SLUG, // Link (slug) del side menu
         "yge_render_admin_page", // Función que devolverá contenido a renderizar en la página
@@ -38,14 +38,32 @@ function yge_render_admin_page()
 {
 ?>
     <div class="wrap">
-        <h1>YGLU e-commerce Settings</h1>
+        <h1>YGLU Woocommerce Settings</h1>
         <form method="post" action="options.php">
             <?php
-            settings_fields('yge_settings'); // Crear el grupo de ajustes para YGLU e-commerce
+            settings_fields('yge_settings'); // Crear el grupo de ajustes para YGLU Woocommerce
             do_settings_sections(YGE_PLUGIN_SLUG); // Renderiza todas las secciones que se hayan agregado a la página del slug del plugin
             submit_button();
             ?>
         </form>
+    </div>
+    <div class="wrap">
+        <b>YGLU WooCommerce - Funcionalidad</b>
+        <ul>
+            <li>Es necesario tener una cuenta activa en YGLU (tuyglu.com/alta)</li>
+            <li>El componente no es un sincronizador. Los pedidos se envían a YGLU la primera vez que pasan a uno de los siguientes estados: “Procesando” o “Completado”.</li>
+            <li>Cualquier modificación en los pedidos enviados no se verá reflejada en YGLU.</li>
+            <li>Es posible configurar el componente para que genere facturas en YGLU.</li>
+        </ul>
+        <b>YGLU - Funcionalidad</b>
+        <ul>
+            <li>Los pedidos recibidos desde WooCommerce generan pedidos en YGLU.</li>
+            <li>Los pedidos no sincronizan clientes ni artículos, solo generan pedidos.</li>
+            <li>Dependiendo de la configuración en YGLU las facturas inician automáticamente o no el proceso de verificación y envío Verifactu (AEAT).</li>
+            <li>Cualquier error Verifactu (AEAT) se deberá solventar mediante subsanaciones en YGLU.</li>
+            <li>Cualquier modificación sobre una factura certificada Verifactu (AEAT) requerirá una factura rectificativa en YGLU.</li>
+            <li>YGLU no envía las facturas de forma automática al cliente final.</li>
+        </ul>
     </div>
 <?php
 }
@@ -69,7 +87,7 @@ function yge_settings_fields() // Agregar campos a la página de ajustes
             'type' => 'text',
             'placeholder' => 'Clave API de tu cuenta de YGLU',
             'value' => get_option('yge_api_key'),
-            'helper' => 'Puedes encontrarla en Configuración > API'
+            'helper' => 'Es necesario tener una cuenta activa en YGLU (tuyglu.com/alta). Dentro de la cuenta podrás generar la Clave API (Configuración > API)'
         ]
     );
 
@@ -92,7 +110,7 @@ function yge_settings_fields() // Agregar campos a la página de ajustes
                 ['value' => 'yes', 'title' => 'Sí'],
                 ['value' => 'custom', 'title' => 'Usar otro', 'show_input' => true, 'input_label' => 'Nombre del campo:']
             ],
-            'helper' => 'Selecciona si deseas que YGLU e-commerce agregue un campo NIF al checkout o usar un campo ya agregado por otro plugin. En este último caso, debes indicar el nombre interno del campo.',
+            'helper' => 'Selecciona si deseas que YGLU Woocommerce agregue un campo NIF al checkout o usar un campo ya agregado por otro plugin. En este último caso, debes indicar el nombre interno del campo.',
         ]
     );
 
@@ -114,7 +132,7 @@ function yge_settings_fields() // Agregar campos a la página de ajustes
                 ['value' => 'yes', 'title' => 'Sí'],
                 ['value' => 'no', 'title' => 'No']
             ],
-            'helper' => 'Selecciona si deseas que YGLU cree una factura de los pedidos sincronizados. La factura solo se generará si el pedido está en estado "Procesando" o "Completado"',
+            'helper' => 'Selecciona si deseas que YGLU cree una factura de los pedidos recibidos.',
         ]
     );
 }

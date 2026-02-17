@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Plugin Name: YGLU e-commerce
+ * Plugin Name: YGLU Woocommerce
  * Plugin URI: https://tuyglu.com/
- * Description: Conecta su sitio a YGLU para sincronizar pedidos y poder generar facturas verificadas
- * Version: 0.9
+ * Description: Conecta tu Woocommerce a YGLU para enviar pedidos y poder generar facturas verificadas. Es necesario disponer de una cuenta de YGLU activa para su fucnionamiento.
+ * Version: 1.1
  * Requires at least: 4.7
  * Tested up to: 6.9
  * Author: YGLU Factory
@@ -15,7 +15,7 @@
 define("YGE_PLUGIN_PATH", plugin_dir_path(__FILE__));
 define("YGE_PLUGIN_URL", plugin_dir_url(__FILE__));
 define("YGE_PLUGIN_SLUG", "yglu-ecommerce");
-define("YGE_API_ENDPOINT", "https://staging.tuyglu.com/api/rest/");
+define("YGE_API_ENDPOINT", "https://app.tuyglu.com/api/rest/");
 
 require_once YGE_PLUGIN_PATH . "admin.php";
 require_once YGE_PLUGIN_PATH . "sync.php";
@@ -26,7 +26,7 @@ function yge_activate_plugin()
     global $wp_version;
     if (version_compare($wp_version, '4.7', '<')) {
         deactivate_plugins(plugin_basename(__FILE__));
-        wp_die('YGLU e-commerce necesita WordPress 4.7 o superior.');
+        wp_die('YGLU Woocommerce necesita WordPress 4.7 o superior.');
     }
 }
 
