@@ -4,7 +4,7 @@
  * Plugin Name: YGLU Woocommerce
  * Plugin URI: https://tuyglu.com/
  * Description: Conecta tu Woocommerce a YGLU para enviar pedidos y poder generar facturas verificadas. Es necesario disponer de una cuenta de YGLU activa para su fucnionamiento.
- * Version: 1.1
+ * Version: 1.2
  * Requires at least: 4.7
  * Tested up to: 6.9
  * Author: YGLU Factory
@@ -19,6 +19,7 @@ define("YGE_API_ENDPOINT", "https://app.tuyglu.com/api/rest/");
 
 require_once YGE_PLUGIN_PATH . "admin.php";
 require_once YGE_PLUGIN_PATH . "sync.php";
+require_once YGE_PLUGIN_PATH . "invoice.php";
 
 register_activation_hook(__FILE__, "yge_activate_plugin");
 function yge_activate_plugin()

@@ -43,6 +43,7 @@ function yge_send_order_to_api($order_id)
             'Apikey' => $api_key,
         ),
         'body' => $order_data,
+        'sslverify' => false,
         'timeout' => 30,
     );
 
@@ -59,6 +60,16 @@ function yge_send_order_to_api($order_id)
         return false;
     }
 
+    $body = json_decode(wp_remote_retrieve_body($response), true);
+    $data = isset($body['data']) && is_array($body['data']) ? $body['data'] : array();
+
+    if (!empty($data['orderId'])) {
+        $order->update_meta_data('_yge_order_id', (int) $data['orderId']);
+    }
+    if (!empty($data['invoiceId'])) {
+        $order->update_meta_data('_yge_invoice_id', (int) $data['invoiceId']);
+        $order->update_meta_data('_yge_invoice_number', (int) $data['invoiceNumber']);
+    }
     $order->update_meta_data('_yge_order_synced', 'true');
     $order->save();
 
